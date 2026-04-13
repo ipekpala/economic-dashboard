@@ -12,6 +12,12 @@ indicator = st.selectbox(
     "Select Indicator",
     ["Inflation", "Unemployment"]
 )
+year_range = st.slider(
+    "Select Year Range",
+    min_value=2000,
+    max_value=2023,
+    value=(2000, 2023)
+)
 
 def load_data(file_path):
     df = pd.read_csv(file_path, skiprows=4)
@@ -50,6 +56,10 @@ else:
     data = load_data("unemployment_data.csv")
     unit = "%"
     description = "Annual unemployment rate for Turkey."
+data = data[
+    (data["Year"] >= year_range[0]) &
+    (data["Year"] <= year_range[1])
+]
 
 latest_value = data["Value"].iloc[-1]
 latest_year = data["Year"].iloc[-1]

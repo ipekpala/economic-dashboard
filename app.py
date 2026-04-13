@@ -5,37 +5,30 @@ import matplotlib.pyplot as plt
 st.set_page_config(page_title="Turkey Economic Dashboard", layout="wide")
 
 st.title("Turkey Economic Dashboard 🇹🇷")
-st.write("Interactive macro indicator dashboard")
+st.write("Turkey inflation data from the World Bank")
 
-indicator = st.selectbox(
-    "Select Indicator",
-    ["Inflation", "Interest Rate", "Unemployment"]
-)
+# World Bank CSV dosyasını oku
+df = pd.read_csv("inflation_data.csv", skiprows=4)
 
-data = {
-    "Year": [2020, 2021, 2022, 2023, 2024],
-    "Inflation": [12.3, 19.6, 64.3, 53.9, 44.4],
-    "Interest Rate": [10.5, 15.0, 25.0, 45.0, 50.0],
-    "Unemployment": [13.2, 12.0, 10.4, 9.8, 9.5]
-}
+# Sadece Türkiye satırını al
+turkey = df[df["Country Name"] == "Turkiye"]
 
-df = pd.DataFrame(data)
+# Yılları seç
+years = [str(year) for year in range(2000, 2024)]
 
-col1, col2 = st.columns(2)
+# Yeni tablo oluştur
+inflation_df = pd.DataFrame({
+    "Year": [int(year) for year in years],
+    "Inflation": [float(turkey[year].values[0]) for year in years]
+})
 
-with col1:
-    st.subheader("Data Table")
-    st.dataframe(df, use_container_width=True)
+st.subheader("Data Table")
+st.dataframe(inflation_df, width="stretch")
 
-with col2:
-    latest_value = df[indicator].iloc[-1]
-    st.subheader("Latest Value")
-    st.metric(label=indicator, value=latest_value)
-
-st.subheader(f"{indicator} Trend")
+st.subheader("Inflation Trend")
 fig, ax = plt.subplots()
-ax.plot(df["Year"], df[indicator], marker="o")
+ax.plot(inflation_df["Year"], inflation_df["Inflation"], marker="o")
 ax.set_xlabel("Year")
-ax.set_ylabel(indicator)
-ax.set_title(f"{indicator} Trend")
+ax.set_ylabel("Inflation (%)")
+ax.set_title("Turkey Inflation Trend")
 st.pyplot(fig)

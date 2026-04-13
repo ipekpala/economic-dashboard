@@ -1,11 +1,11 @@
-# Turkey Economic Dashboard
+# 🇹🇷 Turkey Economic Dashboard
 
-A simple Streamlit dashboard project for exploring economic data.
+An interactive economic data dashboard built with Python and Streamlit.
 
 ## Features
-- Streamlit web interface
-- Data visualization
-- Beginner-friendly structure
+- Interactive selection of indicators
+- Data visualization with charts
+- Simple dashboard layout
 
 ## Tech Stack
 - Python
@@ -13,10 +13,7 @@ A simple Streamlit dashboard project for exploring economic data.
 - Pandas
 - Matplotlib
 
-## Run locally
+## Run Project
 
 ```bash
-python3 -m virtualenv venv
-source venv/bin/activate
-pip install -r requirements.txt
 streamlit run app.py

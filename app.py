@@ -60,6 +60,7 @@ data = data[
     (data["Year"] >= year_range[0]) &
     (data["Year"] <= year_range[1])
 ]
+data["Moving Average"] = data["Value"].rolling(window=3).mean()
 
 latest_value = data["Value"].iloc[-1]
 latest_year = data["Year"].iloc[-1]
@@ -103,9 +104,27 @@ with right_col:
 st.subheader(f"{indicator} Trend")
 
 fig, ax = plt.subplots(figsize=(10, 5))
-ax.plot(data["Year"], data["Value"], marker="o", linewidth=2)
+
+ax.plot(
+    data["Year"],
+    data["Value"],
+    marker="o",
+    linewidth=2,
+    label=indicator
+)
+
+ax.plot(
+    data["Year"],
+    data["Moving Average"],
+    linestyle="--",
+    linewidth=2,
+    label="3-Year Moving Average"
+)
+
 ax.grid(True, linestyle="--", alpha=0.6)
 ax.set_xlabel("Year")
 ax.set_ylabel(unit)
 ax.set_title(f"Turkey {indicator} Trend")
+ax.legend()
+
 st.pyplot(fig)

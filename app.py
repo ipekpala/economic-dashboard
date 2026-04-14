@@ -67,6 +67,14 @@ average_value = data["Value"].mean()
 max_value = data["Value"].max()
 
 st.info(description)
+csv_data = data.to_csv(index=False).encode("utf-8")
+
+st.download_button(
+    label=f"Download {indicator} Data as CSV",
+    data=csv_data,
+    file_name=f"{indicator.lower()}_data.csv",
+    mime="text/csv"
+)
 
 col1, col2, col3 = st.columns(3)
 

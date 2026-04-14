@@ -153,3 +153,4 @@ ax.set_title(f"Turkey {indicator} Trend")
 ax.legend()
 
 st.pyplot(fig)
+st.caption("Developed by Ipek Pala")

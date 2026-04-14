@@ -69,6 +69,25 @@ average_value = data["Value"].mean()
 max_value = data["Value"].max()
 min_year = data["Year"].min()
 max_year = data["Year"].max()
+first_value = data["Value"].iloc[0]
+
+if latest_value > average_value:
+    average_comment = "above"
+else:
+    average_comment = "below"
+
+if latest_value > first_value:
+    trend_comment = "an upward trend"
+elif latest_value < first_value:
+    trend_comment = "a downward trend"
+else:
+    trend_comment = "a flat trend"
+
+insight_text = (
+    f"The latest {indicator.lower()} value in {latest_year} is "
+    f"{latest_value:.2f}{unit}, which is {average_comment} the historical average. "
+    f"Over the selected period, the indicator shows {trend_comment}."
+)
 
 st.info(description)
 csv_data = data.to_csv(index=False).encode("utf-8")
@@ -104,6 +123,8 @@ with right_col:
     st.write(f"Years covered: **{min_year} - {max_year}**")
     st.write(f"Latest available year: **{latest_year}**")
     st.write(f"Number of observations: **{len(data)}**")
+st.markdown("#### Quick Insight")
+st.success(insight_text)
 
 st.subheader(f"{indicator} Trend")
 

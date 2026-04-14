@@ -7,6 +7,7 @@ st.set_page_config(page_title="Turkey Economic Dashboard", layout="wide")
 st.title("Turkey Economic Dashboard 🇹🇷")
 st.markdown("### Real Macroeconomic Indicators for Turkey")
 st.write("This dashboard presents real-world inflation and unemployment data for Turkey using World Bank datasets.")
+st.caption("Data source: World Bank")
 
 indicator = st.selectbox(
     "Select Indicator",
@@ -66,6 +67,8 @@ latest_value = data["Value"].iloc[-1]
 latest_year = data["Year"].iloc[-1]
 average_value = data["Value"].mean()
 max_value = data["Value"].max()
+min_year = data["Year"].min()
+max_year = data["Year"].max()
 
 st.info(description)
 csv_data = data.to_csv(index=False).encode("utf-8")
@@ -98,7 +101,8 @@ with left_col:
 with right_col:
     st.markdown("#### Summary")
     st.write(f"Highest recorded value: **{max_value:.2f}{unit}**")
-    st.write(f"Years covered: **{data['Year'].min()} - {data['Year'].max()}**")
+    st.write(f"Years covered: **{min_year} - {max_year}**")
+    st.write(f"Latest available year: **{latest_year}**")
     st.write(f"Number of observations: **{len(data)}**")
 
 st.subheader(f"{indicator} Trend")
